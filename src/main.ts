@@ -7,6 +7,7 @@ client.on('interactionCreate', async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   if (interaction.commandName === '등록') {
+    const githubId = interaction.options.getString('github-id');
     await interaction.reply('Pong!');
   }
 });
