@@ -1,15 +1,28 @@
 import { Options, SqliteDriver } from '@mikro-orm/sqlite';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
+import { Migrator, TSMigrationGenerator } from '@mikro-orm/migrations';
 
 const config: Options = {
   driver: SqliteDriver,
   dbName: 'data.db',
   entities: ['dist/**/*.entity.js'],
   entitiesTs: ['src/**/*.entity.ts'],
-  // we will use the ts-morph reflection, an alternative to the default reflect-metadata provider
-  // check the documentation for their differences: https://mikro-orm.io/docs/metadata-providers
   metadataProvider: TsMorphMetadataProvider,
-  // enable debug mode to log SQL queries and discovery information
+  extensions: [Migrator],
+  migrations: {
+    tableName: 'Migrations',
+    path: './migrations',
+    pathTs: undefined,
+    glob: '!(*.d).{js,ts}',
+    transactional: true,
+    disableForeignKeys: true,
+    allOrNothing: true,
+    dropTables: false,
+    safe: true,
+    snapshot: false,
+    emit: 'ts',
+    generator: TSMigrationGenerator,
+  },
   debug: true,
 };
 
