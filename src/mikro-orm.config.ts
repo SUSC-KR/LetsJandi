@@ -11,8 +11,8 @@ const config: Options = {
   extensions: [Migrator],
   migrations: {
     tableName: 'Migrations',
-    path: './migrations',
-    pathTs: undefined,
+    path: './src/migrations',
+    pathTs: './src/migrations',
     glob: '!(*.d).{js,ts}',
     transactional: true,
     disableForeignKeys: true,
