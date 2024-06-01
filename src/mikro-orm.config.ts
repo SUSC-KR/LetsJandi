@@ -1,6 +1,6 @@
-import { Options, SqliteDriver } from '@mikro-orm/sqlite';
-import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { Migrator, TSMigrationGenerator } from '@mikro-orm/migrations';
+import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
+import { Options, SqliteDriver } from '@mikro-orm/sqlite';
 
 const config: Options = {
   driver: SqliteDriver,

@@ -11,7 +11,7 @@ export class AddUser20240601182920 extends Migration {
         '`created_at` timestamp not null,',
         'primary key (`id`)',
         ');',
-      ].join(' ')
+      ].join(' '),
     );
   }
 }

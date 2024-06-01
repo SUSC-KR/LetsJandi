@@ -1,10 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
+import dayjs from 'dayjs';
 
 import { config } from '@susc/config';
-import { UserQueryDto } from '@susc/github/dto/user-query.dto';
 import { GetUserDto } from '@susc/github/dto/get-user.dto';
 import { GetUserContributionInfoDto } from '@susc/github/dto/get-user-contribution-info.dto';
-import dayjs from 'dayjs';
+import { UserQueryDto } from '@susc/github/dto/user-query.dto';
 
 export class GithubClient {
   client: AxiosInstance;
@@ -56,7 +56,7 @@ export class GithubClient {
       UserQueryDto<GetUserContributionInfoDto>
     >('', {
       query,
-      variables: { login: githubId },
+      variables: { login: githubId, date: startOfToday },
     });
     return data.data.user;
   }

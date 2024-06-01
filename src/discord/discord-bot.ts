@@ -1,12 +1,13 @@
+import { MikroORM, RequestContext } from '@mikro-orm/core';
 import {
   ChatInputCommandInteraction,
   Client,
   GatewayIntentBits,
 } from 'discord.js';
-import { DiscordConfig, config } from '@susc/config';
-import { BaseDiscordCommandHandler } from '@susc/discord/base-discord-command-handler';
+
 import { Type } from '@susc/common/types';
-import { MikroORM, RequestContext } from '@mikro-orm/core';
+import { config, DiscordConfig } from '@susc/config';
+import { BaseDiscordCommandHandler } from '@susc/discord/base-discord-command-handler';
 import {
   RepositoryMetadata,
   RepositoryMetadataKey,

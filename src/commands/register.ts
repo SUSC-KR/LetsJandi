@@ -1,8 +1,9 @@
 import { EntityRepository } from '@mikro-orm/core';
+import { ChatInputCommandInteraction } from 'discord.js';
+
 import { BaseDiscordCommandHandler } from '@susc/discord/base-discord-command-handler';
 import { Repository } from '@susc/discord/repository.decorator';
 import { UserEntity } from '@susc/entities/user.entity';
-import { ChatInputCommandInteraction } from 'discord.js';
 
 export class RegisterCommandHandler extends BaseDiscordCommandHandler {
   @Repository(UserEntity)
@@ -25,7 +26,7 @@ export class RegisterCommandHandler extends BaseDiscordCommandHandler {
     const existingGithubUser = await this.userRepository.findOne({ githubId });
     if (existingGithubUser) {
       await interaction.reply(
-        '이미 다른 사용자가 등록한 정보에요. 다른 사람이 내 정보를 등록했다면 관리자에게 문의해주세요!'
+        '이미 다른 사용자가 등록한 정보에요. 다른 사람이 내 정보를 등록했다면 관리자에게 문의해주세요!',
       );
       return;
     }

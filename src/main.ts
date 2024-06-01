@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import { RegisterCommandHandler } from './commands/register';
-import { DiscordBot } from './discord/discord-bot';
+
+import { RegisterCommandHandler } from '@susc/commands/register';
+import { DiscordBot } from '@susc/discord/discord-bot';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
