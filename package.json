@@ -24,6 +24,8 @@
     "@mikro-orm/migrations": "^6.2.9",
     "@mikro-orm/reflection": "^6.2.9",
     "@mikro-orm/sqlite": "^6.2.9",
+    "axios": "^1.7.2",
+    "dayjs": "^1.11.11",
     "discord.js": "^14.15.2",
     "dotenv": "^16.4.5",
     "ulid": "^2.3.0"
