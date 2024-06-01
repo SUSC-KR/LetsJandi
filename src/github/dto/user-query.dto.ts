@@ -1,1 +1,1 @@
-export type UserQueryDto<T> = { data: { user: T } };
+export type UserQueryDto<T> = { data: { user: T | null } };

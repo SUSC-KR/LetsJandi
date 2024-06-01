@@ -19,7 +19,7 @@ export class GithubClient {
     });
   }
 
-  async getUser(githubId: string): Promise<GetUserDto> {
+  async getUser(githubId: string): Promise<GetUserDto | null> {
     const query = `
       query userInfo($login: String!) {
         user(login: $login) {
@@ -39,7 +39,9 @@ export class GithubClient {
     return data.data.user;
   }
 
-  async getContribution(githubId: string): Promise<GetUserContributionInfoDto> {
+  async getContribution(
+    githubId: string,
+  ): Promise<GetUserContributionInfoDto | null> {
     const query = `
       query userInfo($login: String!, $date: DateTime!) {
         user(login: $login) {

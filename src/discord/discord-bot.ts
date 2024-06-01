@@ -1,7 +1,7 @@
 import { MikroORM, RequestContext } from '@mikro-orm/core';
 import {
   ChatInputCommandInteraction,
-  Client,
+  Client as DiscordClient,
   GatewayIntentBits,
 } from 'discord.js';
 
@@ -9,20 +9,31 @@ import { Type } from '@susc/common/types';
 import { config, DiscordConfig } from '@susc/config';
 import { BaseDiscordCommandHandler } from '@susc/discord/base-discord-command-handler';
 import {
-  RepositoryMetadata,
-  RepositoryMetadataKey,
-} from '@susc/discord/repository.decorator';
+  GetGithubClientMetadata,
+  GetGithubClientMetadataKey,
+} from '@susc/discord/get-github-client.decorator';
+import {
+  GetRepositoryMetadata,
+  GetRepositoryMetadataKey,
+} from '@susc/discord/get-repository.decorator';
+import { GithubClient } from '@susc/github/github-client';
 
 export class DiscordBot {
-  private client: Client;
+  private discordClient: DiscordClient;
   private config: DiscordConfig;
+
+  private githubClient: GithubClient;
   private orm: MikroORM | null = null;
 
   private handlerMap: Map<string, BaseDiscordCommandHandler> = new Map();
 
   constructor() {
-    this.client = new Client({ intents: [GatewayIntentBits.Guilds] });
+    this.discordClient = new DiscordClient({
+      intents: [GatewayIntentBits.Guilds],
+    });
     this.config = config.discord;
+
+    this.githubClient = new GithubClient();
   }
 
   async init(): Promise<void> {
@@ -30,7 +41,7 @@ export class DiscordBot {
   }
 
   async listen(): Promise<void> {
-    this.client.on('interactionCreate', async (interaction) => {
+    this.discordClient.on('interactionCreate', async (interaction) => {
       if (!interaction.isChatInputCommand()) return;
 
       if (!this.orm) {
@@ -42,33 +53,46 @@ export class DiscordBot {
       });
     });
 
-    await this.client.login(this.config.token);
+    await this.discordClient.login(this.config.token);
   }
 
   async close(): Promise<void> {
     await this.orm?.close();
-    await this.client.destroy();
+    await this.discordClient.destroy();
   }
 
   registerHandler(handler: Type<BaseDiscordCommandHandler>): void {
-    if (!this.orm) {
-      throw new Error('ORM not initialized. Call init() first.');
-    }
-
-    const repositoryMetadata: RepositoryMetadata | undefined =
-      Reflect.getMetadata(RepositoryMetadataKey, handler.prototype);
-
     const instance = new handler();
     if (this.handlerMap.has(instance.command)) {
       throw new Error(`Handler for command ${instance.command} already exists`);
     }
 
+    this.injectInstance(handler, instance);
+    this.handlerMap.set(instance.command, instance);
+  }
+
+  injectInstance(
+    handler: Type<BaseDiscordCommandHandler>,
+    instance: BaseDiscordCommandHandler,
+  ): void {
+    if (!this.orm) {
+      throw new Error('ORM not initialized. Call init() first.');
+    }
+
+    // Repository injection
+    const repositoryMetadata: GetRepositoryMetadata | undefined =
+      Reflect.getMetadata(GetRepositoryMetadataKey, handler.prototype);
     repositoryMetadata?.forEach(({ propertyKey, entity }) => {
       (instance as any)[propertyKey as string] =
         this.orm!.em.getRepository(entity);
     });
 
-    this.handlerMap.set(instance.command, instance);
+    // Github client injection
+    const githubClientMetadata: GetGithubClientMetadata | undefined =
+      Reflect.getMetadata(GetGithubClientMetadataKey, handler.prototype);
+    githubClientMetadata?.forEach(({ propertyKey }) => {
+      (instance as any)[propertyKey as string] = this.githubClient;
+    });
   }
 
   async handle(interaction: ChatInputCommandInteraction): Promise<void> {
