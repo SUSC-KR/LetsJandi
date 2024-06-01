@@ -1,15 +1,13 @@
-import { Client, GatewayIntentBits } from 'discord.js';
-import { config } from '@susc/config';
+import { RegisterCommandHandler } from './commands/register';
+import { DiscordBot } from './discord/discord-bot';
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+async function bootstrap() {
+  const client = new DiscordBot();
+  await client.init();
 
-client.on('interactionCreate', async (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
+  client.registerHandler(RegisterCommandHandler);
 
-  if (interaction.commandName === '등록') {
-    const githubId = interaction.options.getString('github-id');
-    await interaction.reply('Pong!');
-  }
-});
+  await client.listen();
+}
 
-client.login(config.discord.token);
+bootstrap();
