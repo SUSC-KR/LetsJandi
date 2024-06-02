@@ -9,7 +9,7 @@ export class ConfirmHistoryEntity {
   @Property({ type: 'varchar', length: 100 })
   userId: string;
 
-  @Property({ type: 'date' })
+  @Property({ type: 'timestamp' })
   confirmDate: Date;
 
   @Property({ type: 'timestamp' })
