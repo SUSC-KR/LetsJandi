@@ -56,7 +56,7 @@ export class RegisterCommandHandler extends BaseDiscordCommandHandler {
       embeds: [
         {
           color: 0x57ad68,
-          title: '🌱 깃허브 계정이 등록되었어요!',
+          title: '🌱 깃허브 계정 등록!',
           description: [
             '등록이 완료되었어요!',
             "이제 **'/인증'** 명령어로 오늘 잔디를 인증할 수 있어요.",
