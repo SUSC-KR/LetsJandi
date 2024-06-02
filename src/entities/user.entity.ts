@@ -3,14 +3,17 @@ import { ulid } from 'ulid';
 
 @Entity({ tableName: 'User' })
 export class UserEntity {
-  @PrimaryKey()
+  @PrimaryKey({ type: 'varchar', length: 100 })
   id: string = ulid();
 
   @Property({ type: 'varchar', length: 100 })
-  githubId!: string;
+  githubId: string;
 
   @Property({ type: 'varchar', length: 100 })
-  discordId!: string;
+  discordId: string;
+
+  @Property({ type: 'int' })
+  streak: number = 0;
 
   @Property({ type: 'timestamp' })
   createdAt: Date = new Date();
