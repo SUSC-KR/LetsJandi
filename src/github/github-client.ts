@@ -47,7 +47,7 @@ export class GithubClient {
         user(login: $login) {
           contributionsCollection(from: $date) {
             hasAnyContributions,
-            hasAnyRestrictedContribution
+            hasAnyRestrictedContributions
           }
         }
       }
