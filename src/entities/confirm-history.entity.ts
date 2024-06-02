@@ -1,7 +1,11 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, Index, PrimaryKey, Property } from '@mikro-orm/core';
 import { ulid } from 'ulid';
 
 @Entity({ tableName: 'ConfirmHistory' })
+@Index({
+  name: 'idx_confirmHistory_userId_confirmDate',
+  properties: ['userId', 'confirmDate'],
+})
 export class ConfirmHistoryEntity {
   @PrimaryKey({ type: 'varchar', length: 100 })
   id: string = ulid();
