@@ -16,6 +16,10 @@ async function init() {
           .setRequired(true),
       )
       .toJSON(),
+    new SlashCommandBuilder()
+      .setName('인증')
+      .setDescription('여러분이 심은 잔디를 매일매일 인증해요.')
+      .toJSON(),
   ];
 
   const rest = new REST().setToken(config.discord.token);

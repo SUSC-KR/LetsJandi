@@ -1,8 +1,6 @@
 export type GetUserContributionInfoDto = {
-  user: {
-    contributionsCollection: {
-      hasAnyContributions: boolean;
-      hasAnyRestrictedContributions: boolean;
-    };
+  contributionsCollection: {
+    hasAnyContributions: boolean;
+    hasAnyRestrictedContributions: boolean;
   };
 };
