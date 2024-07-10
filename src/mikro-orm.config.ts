@@ -7,7 +7,6 @@ const config: Options = {
   dbName: 'data.db',
   entities: ['dist/**/*.entity.js'],
   entitiesTs: ['src/**/*.entity.ts'],
-  metadataProvider: TsMorphMetadataProvider,
   extensions: [Migrator],
   migrations: {
     tableName: 'Migrations',
@@ -23,7 +22,9 @@ const config: Options = {
     emit: 'ts',
     generator: TSMigrationGenerator,
   },
-  debug: true,
+  ...(process.env.NODE_ENV !== 'production'
+    ? { metadataProvider: TsMorphMetadataProvider, debug: true }
+    : {}),
 };
 
 export default config;
