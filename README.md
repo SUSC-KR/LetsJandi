@@ -41,3 +41,11 @@ npm run start
 npm run build
 npm run start:prod
 ```
+
+## Environments
+
+|          이름           | 설명                                                                         |
+| :---------------------: | :--------------------------------------------------------------------------- |
+| `DISCORD_BOT_CLIENT_ID` | 디스코드 봇의 클라이언트 ID입니다.                                           |
+|   `DISCORD_BOT_TOKEN`   | 디스코드 봇의 토큰입니다.                                                    |
+|     `GITHUB_TOKEN`      | 깃허브 API를 사용하기 위한 토큰입니다. 아무 권한 없는 PAT를 사용하면 됩니다. |
