@@ -87,9 +87,10 @@ export class ConfirmCommandHandler extends BaseDiscordCommandHandler {
     await this.confirmHistoryRepository.insert(newConfirmHistory);
 
     user.streak = isContributedYesterday ? user.streak + 1 : 1;
+    user.maxStreak = Math.max(user.streak, user.maxStreak);
     await this.userRepository.nativeUpdate(
       { id: user.id },
-      { streak: user.streak },
+      { streak: user.streak, maxStreak: user.maxStreak },
     );
 
     const celebrationPoint = [1, 3, 7, 14, 30, 50, 100];
@@ -112,6 +113,10 @@ export class ConfirmCommandHandler extends BaseDiscordCommandHandler {
             {
               name: '연속 잔디',
               value: `${user.streak}일`,
+            },
+            {
+              name: '최대 연속 잔디',
+              value: `${user.maxStreak}일`,
             },
           ],
         },

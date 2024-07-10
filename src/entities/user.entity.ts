@@ -15,6 +15,9 @@ export class UserEntity {
   @Property({ type: 'int' })
   streak: number = 0;
 
+  @Property({ type: 'int' })
+  maxStreak: number = 0;
+
   @Property({ type: 'timestamp' })
   createdAt: Date = new Date();
 
