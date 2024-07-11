@@ -53,7 +53,11 @@ export class GithubClient {
       }
     `;
 
-    const startOfToday = dayjs().tz('Asia/Seoul').startOf('day').toISOString();
+    const startOfToday = dayjs()
+      .tz('Asia/Seoul')
+      .startOf('day')
+      .format('YYYY-MM-DDTHH:mm:ss');
+
     const { data } = await this.client.post<
       UserQueryDto<GetUserContributionInfoDto>
     >('', {
