@@ -3,6 +3,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 
 import { ConfirmCommandHandler } from '@susc/commands/confirm';
+import { RankingCommandHandler } from '@susc/commands/ranking';
 import { RegisterCommandHandler } from '@susc/commands/register';
 import { DiscordBot } from '@susc/discord/discord-bot';
 
@@ -15,6 +16,7 @@ async function bootstrap() {
 
   client.registerHandler(RegisterCommandHandler);
   client.registerHandler(ConfirmCommandHandler);
+  client.registerHandler(RankingCommandHandler);
 
   await client.listen();
 }

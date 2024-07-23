@@ -20,6 +20,12 @@ async function init() {
       .setName('인증')
       .setDescription('여러분이 심은 잔디를 매일매일 인증해요.')
       .toJSON(),
+    new SlashCommandBuilder()
+      .setName('랭킹')
+      .setDescription(
+        '최대 연속 잔디 랭킹을 확인해요. 최소 한 번 이상 인증한 사람들 중 상위 10명이 나와요.',
+      )
+      .toJSON(),
   ];
 
   const rest = new REST().setToken(config.discord.token);
