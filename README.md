@@ -6,6 +6,7 @@
 
 - `/인증`: 오늘 잔디를 인증합니다.
 - `/등록 <github-id>`: 자신의 계정을 등록합니다.
+- `/랭킹`: 최대 연속 잔디 랭킹을 상위 10명까지 확인합니다. 
 
 ## Prerequisites
 
@@ -20,6 +21,13 @@ git clone https://github.com/SUSC-KR/LetsJandi.git
 cd LetsJandi
 npm install
 ```
+
+## Set Database Schema
+```shell
+npx mikro-orm schema:update --run
+```
+
+이 명령어는 MikroORM의 엔티티 정의를 기반으로 데이터베이스 구조를 업데이트합니다.
 
 ## Init for discord
 
