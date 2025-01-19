@@ -6,7 +6,8 @@
 
 - `/인증`: 오늘 잔디를 인증합니다.
 - `/등록 <github-id>`: 자신의 계정을 등록합니다.
-- `/랭킹`: 최대 연속 잔디 랭킹을 상위 10명까지 확인합니다. 
+- `/랭킹`: 최대 연속 잔디 랭킹을 상위 10명까지 확인합니다.
+- `/인증내역`: 자신의 최근 인증 내역 10개와 총 인증 횟수를 확인합니다.
 
 ## Prerequisites
 
@@ -23,6 +24,7 @@ npm install
 ```
 
 ## Set Database Schema
+
 ```shell
 npx mikro-orm schema:update --run
 ```
