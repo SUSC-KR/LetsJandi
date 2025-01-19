@@ -16,7 +16,7 @@ export class RankingCommandHandler extends BaseDiscordCommandHandler {
   async handle(
     interaction: ChatInputCommandInteraction<CacheType>,
   ): Promise<void> {
-    const ranking = await this.userRepository.find(
+    const usersInRanking = await this.userRepository.find(
       {
         maxStreak: {
           $gt: 0,
@@ -24,6 +24,33 @@ export class RankingCommandHandler extends BaseDiscordCommandHandler {
       },
       { orderBy: { maxStreak: 'DESC' }, limit: 10 },
     );
+
+    type RankingUser = {
+      rank: number;
+      githubId: string;
+      maxStreak: number;
+    };
+
+    const rankingWithSequentialRank: RankingUser[] = usersInRanking.map(
+      (user, idx) => ({
+        rank: idx + 1,
+        githubId: user.githubId,
+        maxStreak: user.maxStreak,
+      }),
+    );
+
+    const ranking: RankingUser[] = [];
+    rankingWithSequentialRank.forEach((current, idx) => {
+      const lastUser: RankingUser | undefined = ranking[idx - 1];
+
+      ranking.push({
+        ...current,
+        rank:
+          lastUser?.maxStreak === current.maxStreak
+            ? lastUser.rank
+            : current.rank,
+      });
+    });
 
     const emojis = [
       ':one:',
@@ -46,8 +73,8 @@ export class RankingCommandHandler extends BaseDiscordCommandHandler {
           color: 0x57ad68,
           title: '🌱 잔디 랭킹',
           description: ranking
-            .map((user, index) => {
-              return `${emojis[index]} [${user.githubId}](${buildGithubUrl(user.githubId)}) **${user.maxStreak}일**`;
+            .map(({ rank, githubId, maxStreak }) => {
+              return `${emojis[rank - 1]} [${githubId}](${buildGithubUrl(githubId)}) **${maxStreak}일**`;
             })
             .join('\n\n'),
         },
