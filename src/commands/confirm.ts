@@ -86,6 +86,10 @@ export class ConfirmCommandHandler extends BaseDiscordCommandHandler {
     const newConfirmHistory = new ConfirmHistoryEntity(user.id, confirmDate);
     await this.confirmHistoryRepository.insert(newConfirmHistory);
 
+    const totalConfirmHistoryCount = await this.confirmHistoryRepository.count({
+      userId: user.id,
+    });
+
     user.streak = isContributedYesterday ? user.streak + 1 : 1;
     user.maxStreak = Math.max(user.streak, user.maxStreak);
     await this.userRepository.nativeUpdate(
@@ -117,6 +121,10 @@ export class ConfirmCommandHandler extends BaseDiscordCommandHandler {
             {
               name: '최대 연속 잔디',
               value: `${user.maxStreak}일`,
+            },
+            {
+              name: '총 잔디 수',
+              value: `${totalConfirmHistoryCount}일`,
             },
           ],
         },
